@@ -2,6 +2,7 @@ package com.example.SprinBootJavaMail.student;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,34 @@ public class StudentService {
 		this.studentRepository = studentRepository;
 	}
 
+	/**
+	 * Fetch all students
+	 * @return
+	 */
 	public List<Student> getStudents() {
 		return studentRepository.findAll();
 	}
+
+	public void addStudent(Student student) {
+		Optional<Student> fetchedStudent = studentRepository.findStudentByEmail(student.getEmail());
+		System.out.println();
+		if(fetchedStudent.isPresent()){
+			System.out.println("Sorry there is already a student with that email.");
+			throw new IllegalStateException("Email taken.");
+		} else {
+			studentRepository.save(student);
+		}
+  }
+
+	public void removeStudent(Long id) {
+		Optional<Student> fetchedStudent = studentRepository.findStudentById(id);
+		System.out.println();
+		if(fetchedStudent.isPresent()){
+			studentRepository.deleteById(id);
+		} else {
+			System.out.println("Sorry thereno student with that id.");
+			throw new IllegalStateException("No Student with that Id.");
+		}
+  }
 
 }
