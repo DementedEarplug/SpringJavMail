@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController // Allows class to serve rests endpoints
-@RequestMapping(path = "api/vi/student")
+@RequestMapping(path = "api/v1/student")
 public class StudentController {
   // This class will have all of the resources for our api. MEaning this is where
   // we define the
