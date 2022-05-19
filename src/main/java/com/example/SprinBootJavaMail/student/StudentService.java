@@ -2,7 +2,10 @@ package com.example.SprinBootJavaMail.student;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +45,8 @@ public class StudentService {
 
 	public void removeStudent(Long id) {
 		Optional<Student> fetchedStudent = studentRepository.findStudentById(id);
+		//Another way to do it
+		// Boolean fetchedStudent = studentRepository.existsById(id) // And check fetchedStudent
 		System.out.println();
 		if(fetchedStudent.isPresent()){
 			studentRepository.deleteById(id);
@@ -50,5 +55,23 @@ public class StudentService {
 			throw new IllegalStateException("No Student with that Id.");
 		}
   }
+
+	@Transactional
+	public void updateStudent(Long id, String name, String email){
+		Student student = studentRepository.getById(id);
+		if(student!=null){
+			//Check name update
+			if(name!=null && name.length()>0 && !Objects.equals(student.getName(), name)){
+				System.out.println("Name is being changed");
+				student.setName(name);
+				System.out.println("\n\n"+student);
+			}
+
+			//Check email update
+			if(email!=null && email.length()>0 && !Objects.equals(student.getEmail(), email)){
+				student.setEmail(email);
+			}
+		}
+	}
 
 }
