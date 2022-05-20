@@ -16,7 +16,7 @@
     <div class="container mt-5">
       <h2>Add New Student</h2>
       <hr>
-      <form th:action="@{saveStudent}" th:object="${newStudent}" method="POST">
+      <form th:action="@{/api/v1/student}" th:object="${newStudent}" method="POST">
         <div class="form-group">
           <label for="studentName">Name</label>
           <input th:field="*{name}" type="text" class="form-control" id="studentName" />

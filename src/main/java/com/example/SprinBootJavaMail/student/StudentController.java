@@ -53,14 +53,13 @@ public class StudentController {
     return mav;
   }
 
-  @PostMapping("saveStudent")
-  public String savaStudent(@ModelAttribute Student student, Model model){
-    System.out.println("\n\n\n\nHELOOOOO IM IN SAVE STUDENT\n\n\n\n\n");
+  @PostMapping
+  public ModelAndView savaStudent(@ModelAttribute Student student, Model model){
     studentService.addStudent(student);
-    model.addAttribute("message", "next page");
-    // return "redirect:/api/v1/student/";
-    return "redirect:/api/v1/student/";
-
+    ModelAndView mav = new ModelAndView("show-students");
+    List<Student> students = studentService.getStudents();
+    mav.addObject("students", students);
+    return mav;
   }
 
   @DeleteMapping(path = "{id}") // Enables DELETE Requests
