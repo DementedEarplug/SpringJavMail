@@ -3,8 +3,11 @@ package com.example.SprinBootJavaMail.student;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,15 +39,28 @@ public class StudentController {
   @GetMapping // Enables GET Requests
   public ModelAndView getStudents() {
     ModelAndView mav = new ModelAndView("show-students");
-    List<Student> students= studentService.getStudents();
-    mav.addObject("students",students);
+    List<Student> students = studentService.getStudents();
+    mav.addObject("students", students);
     return mav;
   }
 
-  @PostMapping // Enables POST Requests
+  @GetMapping("addNew") // Enables POST Requests
   // Map request body to student
-  public void addStudent(@RequestBody Student student) {
+  public ModelAndView addStudent()  {
+    ModelAndView mav = new ModelAndView("add-student");
+    Student newStudent = new Student();
+    mav.addObject("newStudent", newStudent);
+    return mav;
+  }
+
+  @PostMapping("saveStudent")
+  public String savaStudent(@ModelAttribute Student student, Model model){
+    System.out.println("\n\n\n\nHELOOOOO IM IN SAVE STUDENT\n\n\n\n\n");
     studentService.addStudent(student);
+    model.addAttribute("message", "next page");
+    // return "redirect:/api/v1/student/";
+    return "redirect:/api/v1/student/";
+
   }
 
   @DeleteMapping(path = "{id}") // Enables DELETE Requests
@@ -57,6 +73,6 @@ public class StudentController {
       @PathVariable("id") Long id,
       @RequestParam(required = false) String name,
       @RequestParam(required = false) String email) {
-        studentService.updateStudent(id, name, email);
+    studentService.updateStudent(id, name, email);
   }
 }

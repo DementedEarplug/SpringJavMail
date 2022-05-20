@@ -11,6 +11,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity //Map student to db. Hibernate
 @Table //
 public class Student {
@@ -31,6 +33,7 @@ public class Student {
   @Transient // Does not store age in DB. It's a computed value from dob uses getter to set value.
   private Integer age;
 
+  @DateTimeFormat(pattern = "yyyy-MM-dd") //Had to add this to convert form input to java date
   private LocalDate dob;
   private String email;
 
