@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController // Allows class to serve rests endpoints
 @RequestMapping(path = "api/v1/student")
@@ -33,8 +34,11 @@ public class StudentController {
   }
 
   @GetMapping // Enables GET Requests
-  public List<Student> getStudents() {
-    return studentService.getStudents();
+  public ModelAndView getStudents() {
+    ModelAndView mav = new ModelAndView("show-students");
+    List<Student> students= studentService.getStudents();
+    mav.addObject("students",students);
+    return mav;
   }
 
   @PostMapping // Enables POST Requests
