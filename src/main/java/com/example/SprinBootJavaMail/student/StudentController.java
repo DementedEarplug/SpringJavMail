@@ -24,44 +24,28 @@ public class StudentController {
   // we define the
   // endpoints. Endpoints will call the Service which will use the model to get
   // data.
-
   final StudentService studentService;
-
   @Autowired
   public StudentController(StudentService studentService) {
     // * This currently does not work you would need to use new StudentService().
     // * This is where Dejendency injection comes in! using @Autowired, howeve for
     // * autowired to work, you need to make StudenService a spring bean.
-
     this.studentService = studentService;
   }
-
   @GetMapping // Enables GET Requests
-  public ModelAndView getStudents() {
-    ModelAndView mav = new ModelAndView("show-students");
-    List<Student> students = studentService.getStudents();
-    mav.addObject("students", students);
-    return mav;
+  public List<Student> getStudents() {
+    return studentService.getStudents();
   }
 
-  @GetMapping("addNew") // Enables POST Requests
+  @GetMapping(path = "{id}")// Enables GET Requests
+  public Student getStudentById(@PathVariable("id") Long id) {
+    return studentService.getStudentById(id);
+  }
+
+  @PostMapping // Enables POST Requests
   // Map request body to student
-  public ModelAndView addStudent()  {
-    ModelAndView mav = new ModelAndView("add-student");
-    Student newStudent = new Student();
-    mav.addObject("newStudent", newStudent);
-    return mav;
-  }
-
-  @PostMapping("saveStudent")
-  public ModelAndView savaStudent(@ModelAttribute Student student, Model model){
-    System.out.println("\n\n\n\nHELOOOOO IM IN SAVE STUDENT\n\n\n\n\n");
+  public void addStudent(@RequestBody Student student) {
     studentService.addStudent(student);
-    ModelAndView mav = new ModelAndView("show-students");
-    List<Student> students = studentService.getStudents();
-    mav.addObject("students", students);
-    return mav;
-
   }
 
   @DeleteMapping(path = "{id}") // Enables DELETE Requests
@@ -72,8 +56,7 @@ public class StudentController {
   @PutMapping(path = "{id}")
   public void updateStudent(
       @PathVariable("id") Long id,
-      @RequestParam(required = false) String name,
-      @RequestParam(required = false) String email) {
-    studentService.updateStudent(id, name, email);
+      @RequestBody Student student) {
+        studentService.updateStudent(id, student.getName(), student.getEmail());
   }
 }

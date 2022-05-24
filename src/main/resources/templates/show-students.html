@@ -16,7 +16,7 @@
     <div class="container">
       <h1>Hello Students</h1>
       <hr />
-      <a th:href="@{/api/v1/student/addNew}" class="btn btn-success mb-2">
+      <a th:href="@{add-student}" class="btn btn-success mb-2">
         Add Student
       </a>
       <table class="table mt-2">
@@ -36,8 +36,8 @@
             <td th:text="${student.age}"></td>
             <td th:text="${student.dob}"></td>
             <td>
-              <button class="btn btn-primary">Edit</button>
-              <button class="btn btn-danger">Delete</button>
+              <a th:href="@{/edit-student/{id}(id=${student.id})}" class="btn btn-primary">Edit</a>
+              <a th:href="@{/delete-student/{id}(id=${student.id})}" class="btn btn-danger">Delete</a>
             </td>
           </tr>
         </tbody>

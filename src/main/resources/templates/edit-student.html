@@ -14,9 +14,9 @@
   </head>
   <body>
     <div class="container mt-5">
-      <h2>Add New Student</h2>
+      <h2>Update Student</h2>
       <hr>
-      <form th:action="@{/save}" th:object="${newStudent}" method="POST">
+      <form th:action="@{/save-update}" th:object="${newStudent}" method="POST">
         <div class="form-group">
           <label for="studentName">Name</label>
           <input th:field="*{name}" type="text" class="form-control" id="studentName" />
@@ -29,16 +29,13 @@
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
           />
-          <small id="emailHelp" class="form-text text-muted"
-            >We'll never share your email with anyone else.</small
-          >
         </div>
         <div class="form-group">
           <label for="studentDOB">Date of birth</label>
           <input th:field="*{dob}" type="date" class="form-control" id="studentDOB" />
         </div>
         <input type="hidden" th:field="*{id}">
-        <button type="submit" class="btn btn-primary">Add New Student</button>
+        <button type="submit" class="btn btn-primary">Update Student</button>
       </form>
       <hr>
       <a th:href="@{/}">
